@@ -1,0 +1,41 @@
+<h3>Listado de Productos (usando Firebase)</h3>
+<hr>
+
+<div class="row">
+  <div class="col-md-12">
+
+    <div class="table-responsive">
+      <table class="table">
+        <thead class="thead-inverse">
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Nombre</th>
+            <th scope="col">Unidad de medida</th>
+            <th scope="col">Precio</th>
+            <th scope="col" class="text-center">Opciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let k of productos | keys; let i = index">
+            <td>{{ i + 1 }}</td>
+            <td>{{ productos[k].nombre }}</td>
+            <td>{{ productos[k].um }}</td>
+            <td>{{ productos[k].precio | number:'.2-2' }}</td>
+            <td class="text-right ancho">
+              <button [routerLink]="['/producto', k]" type="button" class="btn btn-success">Editar</button>&nbsp;
+              <button (click)="borraProducto(k)" type="button" class="btn btn-danger">Eliminar</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div *ngIf="(productos | keys).length === 0 && !cargando" class="alert alert-info" role="alert"> <strong>No hay productos</strong> que mostrar </div>
+
+      <div *ngIf="cargando" class="alert alert-warning" role="alert">
+        <strong>Cargando...</strong> por favor, esperá un momento.
+      </div>
+    </div>
+
+  </div>
+
+</div>

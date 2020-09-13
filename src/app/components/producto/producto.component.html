@@ -1,0 +1,57 @@
+<div *ngIf="producto.nombre">
+  <h3 >Editar Producto: <small>{{ producto.nombre }}</small></h3>
+</div>
+<div *ngIf="!producto.nombre">
+  <h3>Agregar Producto</h3>
+</div>
+<hr>
+
+<div class="row">
+  <div class="col-md-12">
+    <form (ngSubmit)="guardar()" #forma="ngForm">
+
+      <div class="form-group" [ngClass]="{ 'has-danger' : (nombre.errors?.required) && nombre.touched }">
+        <label>Nombre del producto</label>
+        <input [(ngModel)]="producto.nombre" type="text" name="nombre"
+        #nombre="ngModel" class="form-control" placeholder="Ej: Pegamento blanco" required>
+
+        <div *ngIf="nombre.errors?.required" class="form-control-feedback">
+          El nombre del producto es obligatorio
+        </div>
+      </div>
+
+      <div class="form-group" [ngClass]="{ 'has-danger' : (um.errors?.required) && um.touched }">
+        <label>Unidad de Medida</label>
+        <select [(ngModel)]="producto.um" #um="ngModel" name="um" class="form-control" required>
+          <option value="Unidad">Unidad</option>
+          <option value="Docena">Docena</option>
+          <option value="Libra">Libra</option>
+          <option value="Litro">Litro</option>
+          <option value="Quintal">Quintal</option>
+          <option value="Otro">Otro</option>
+        </select>
+
+        <div *ngIf="um.errors?.required" class="form-control-feedback">
+          La Unidad de medida del producto es obligatoria
+        </div>
+      </div>
+
+      <div class="form-group" [ngClass]="{ 'has-danger' : (precio.errors?.required || precio.errors?.pattern) && precio.touched }">
+        <label>Precio</label>
+        <input [(ngModel)]="producto.precio" type="text" name="precio" #precio="ngModel" class="form-control" min="0" step="0.01" pattern="[0-9]+([\.,][0-9]+)?" placeholder="Ej: 125.75" required>
+
+        <div *ngIf="precio.errors?.required" class="form-control-feedback">
+          El precio del producto es obligatorio
+        </div>
+
+        <div *ngIf="precio.errors?.pattern" class="form-control-feedback">El precio debe ser un número decimal válido
+        </div>
+      </div>
+
+      <div class="form-group">
+        <button [disabled]="!forma.valid" type="submit" class="btn btn-primary">Guardar cambios</button>
+      </div>
+
+    </form>
+  </div>
+</div>
